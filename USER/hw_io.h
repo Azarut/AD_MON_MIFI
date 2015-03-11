@@ -2,6 +2,8 @@
 #define Delay(x) 				osDelay(x);  //макрос задрежки в мс, привязанный к задержке rtos
 #define SIM800_On()			GPIOA->BSRR |= GPIO_BSRR_BS_1 
 #define SIM800_Off()		GPIOA->BRR |= GPIO_BSRR_BS_1 
+#define SIM800_Power_On()			GPIOA->BSRR |= GPIO_BSRR_BS_0 
+#define SIM800_Power_Off()		GPIOA->BRR |= GPIO_BSRR_BS_0
 #define Green_On			GPIOA->BSRR |= GPIO_BSRR_BS_7 
 #define Green_Off			GPIOA->BRR |= GPIO_BSRR_BS_7 
 #define Red_On			GPIOA->BSRR |= GPIO_BSRR_BS_6 

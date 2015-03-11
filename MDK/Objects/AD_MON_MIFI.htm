@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\AD_MON_MIFI.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\AD_MON_MIFI.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Thu Mar 05 18:25:14 2015
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Wed Mar 11 18:14:29 2015
 <BR><P>
 <H3>Maximum Stack Usage =        100 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -379,7 +379,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_memset
 </UL>
-<BR>[Called By]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SIM800_Command
+<BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SIM800_Command
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RX_Clear
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RX2_Clear
 </UL>
@@ -450,11 +450,11 @@ Global Symbols
 <P><STRONG><a name="[16]"></a>DMA1_Channel4_5_6_7_IRQHandler</STRONG> (Thumb, 62 bytes, Stack size 0 bytes, hw_config.o(i.DMA1_Channel4_5_6_7_IRQHandler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l053xx.o(RESET)
 </UL>
-<P><STRONG><a name="[5b]"></a>Init_AD_line</STRONG> (Thumb, 116 bytes, Stack size 0 bytes, hw_config.o(i.Init_AD_line))
+<P><STRONG><a name="[5b]"></a>Init_AD_line</STRONG> (Thumb, 118 bytes, Stack size 0 bytes, hw_config.o(i.Init_AD_line))
 <BR><BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_Hardware
 </UL>
 
-<P><STRONG><a name="[58]"></a>Init_Core</STRONG> (Thumb, 186 bytes, Stack size 8 bytes, hw_config.o(i.Init_Core))
+<P><STRONG><a name="[58]"></a>Init_Core</STRONG> (Thumb, 188 bytes, Stack size 8 bytes, hw_config.o(i.Init_Core))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Init_Core
 </UL>
 <BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_Hardware
@@ -481,17 +481,17 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_Hardware
 </UL>
 
-<P><STRONG><a name="[5f]"></a>Init_SIM800</STRONG> (Thumb, 210 bytes, Stack size 8 bytes, sim800h.o(i.Init_SIM800))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = Init_SIM800 &rArr; SIM800_Command &rArr; __aeabi_memset
+<P><STRONG><a name="[5f]"></a>Init_SIM800</STRONG> (Thumb, 226 bytes, Stack size 16 bytes, sim800h.o(i.Init_SIM800))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = Init_SIM800 &rArr; SIM800_Command &rArr; __aeabi_memset
 </UL>
-<BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
-<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SIM800_Command
+<BR>[Calls]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
+<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SIM800_Command
 </UL>
-<BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadADTask
 <LI><a href="#[34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MainTask
 </UL>
 
-<P><STRONG><a name="[59]"></a>Init_SIM800_line</STRONG> (Thumb, 132 bytes, Stack size 0 bytes, hw_config.o(i.Init_SIM800_line))
+<P><STRONG><a name="[59]"></a>Init_SIM800_line</STRONG> (Thumb, 130 bytes, Stack size 0 bytes, hw_config.o(i.Init_SIM800_line))
 <BR><BR>[Called By]<UL><LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_Hardware
 </UL>
 
@@ -499,8 +499,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = MainTask &rArr; osThreadCreate &rArr; svcThreadCreate &rArr; rt_tsk_create &rArr; rt_init_context &rArr; rt_init_stack
 </UL>
 <BR>[Calls]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadCreate
-<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
-<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SIM800_Command
+<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
+<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SIM800_Command
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RX2_Clear
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_SIM800
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crc16
@@ -524,13 +524,14 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadADTask
 </UL>
 
-<P><STRONG><a name="[35]"></a>ReadADTask</STRONG> (Thumb, 398 bytes, Stack size 0 bytes, main.o(i.ReadADTask))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = ReadADTask &rArr; SIM800_Command &rArr; __aeabi_memset
+<P><STRONG><a name="[35]"></a>ReadADTask</STRONG> (Thumb, 410 bytes, Stack size 0 bytes, main.o(i.ReadADTask))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = ReadADTask &rArr; Init_SIM800 &rArr; SIM800_Command &rArr; __aeabi_memset
 </UL>
-<BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
-<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SIM800_Command
+<BR>[Calls]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
+<LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SIM800_Command
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RX_Clear
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RX2_Clear
+<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_SIM800
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crc16
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.constdata)
@@ -538,12 +539,12 @@ Global Symbols
 <P><STRONG><a name="[36]"></a>Rx_Blink</STRONG> (Thumb, 262 bytes, Stack size 0 bytes, main.o(i.Rx_Blink))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Rx_Blink &rArr; osDelay
 </UL>
-<BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
+<BR>[Calls]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_common_switch8
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.constdata)
 </UL>
-<P><STRONG><a name="[60]"></a>SIM800_Command</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, hw_io.o(i.SIM800_Command))
+<P><STRONG><a name="[61]"></a>SIM800_Command</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, hw_io.o(i.SIM800_Command))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = SIM800_Command &rArr; __aeabi_memset
 </UL>
 <BR>[Calls]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
@@ -592,18 +593,17 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;isrMessagePut
 </UL>
 
-<P><STRONG><a name="[37]"></a>main</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[37]"></a>main</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = main &rArr; osKernelInitialize &rArr; svcKernelInitialize &rArr; svcThreadCreate &rArr; rt_tsk_create &rArr; rt_init_context &rArr; rt_init_stack
 </UL>
 <BR>[Calls]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osThreadCreate
 <LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osKernelStart
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osKernelInitialize
-<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_SIM800
 <LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_Hardware
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rtx_conf_cm.o(.data)
 </UL>
-<P><STRONG><a name="[61]"></a>osDelay</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, rt_cmsis.o(i.osDelay))
+<P><STRONG><a name="[60]"></a>osDelay</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, rt_cmsis.o(i.osDelay))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = osDelay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Init_SIM800

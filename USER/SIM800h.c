@@ -22,17 +22,24 @@ uint8_t SEND_DATA[11] = "AT+CIPSEND\r";
 uint8_t CHK_GPRS[10] = "AT+CGATT?\r";
 uint8_t GPRS_CONNECT[11] = "AT+CGATT=1\r";
 uint8_t GPRS_DISCONNECT[12] = "AT+CIPCLOSE\r";
+uint8_t POWER_OFF[11] = "AT+CPOWD=0\r";
 uint8_t END_LINE[1] = {0x1A};
 /*******************************/
 
 void Init_SIM800(void)
 {		  
+			SIM800_Power_On();
+			Delay(1000);
 			SIM800_Command(AT, 3);
-			if ((SIM800_Answer [0] != 'A') && (SIM800_Answer [2] != 'A') &&  (SIM800_Answer [2] != 'O'))
+			Delay(100);
+			if (SIM800_Answer [0] != 'A')
 			{
+				if((SIM800_Answer [2] != 'O'))
+				{
 				SIM800_On();
 				Delay(1500);
-				SIM800_Off();
+ 				SIM800_Off();
+				}
 			}
 			Delay(15000);
 		  SIM800_Command(ECHO, 5);
@@ -52,6 +59,9 @@ void Init_SIM800(void)
 	    SIM800_Command(CHK_CONNECT, 9);
 		  Delay(1000);
 	    SIM800_Command(CHK_IP, 9);
+//			SIM800_On();
+//				Delay(1500);
+//				SIM800_Off();
 		  Delay(1000);
 }
 

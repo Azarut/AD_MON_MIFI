@@ -43,7 +43,7 @@ void Init_AD_line(void)
                   | (4 << (1 * 4)) | (4 << (2 * 4)); /* (2) */
    GPIOA->PUPDR = (GPIOA->PUPDR & ~(GPIO_PUPDR_PUPD10))\
                  | (GPIO_PUPDR_PUPD10_0); /* (1) */
-  USART1->BRR = 320000 / 96; /* (1) */
+  USART1->BRR = 40000 / 96; /* (1) */
   USART1->CR3 = USART_CR3_DMAT | USART_CR3_DMAR; /* (2) */
   USART1->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE; /* (3) */
   
@@ -67,7 +67,7 @@ void Init_SIM800_line(void)
   GPIOA->AFR[0] = (GPIOA->AFR[0] &~ (0x00000FF0))\
                   | (4 << (2 * 4)) | (4 << (3 * 4)); /* (2) */	
 	
-	USART2->BRR = 320000 / 1152; /* (1) */
+	USART2->BRR = 40000 / 1152; /* (1) */
   USART2->CR3 = USART_CR3_DMAT | USART_CR3_DMAR; /* (2) */
   USART2->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE; /* (3) */
   
@@ -103,7 +103,7 @@ void Init_Core(void)
 	/* Enable the peripheral clock of GPIOA */
   RCC->IOPENR |= RCC_IOPENR_GPIOAEN;
 	
-	RCC->CR |= ((uint32_t)RCC_CR_HSION);                      /* Enable HSI                        */
+	RCC->CR |= RCC_CR_HSION | RCC_CR_HSIDIVEN;                      /* Enable HSI                        */
   while ((RCC->CR & RCC_CR_HSIRDY) == 0);                   /* Wait for HSI Ready                */
 
   RCC->CFGR = RCC_CFGR_SW_HSI;                              /* HSI is system clock               */
@@ -115,7 +115,7 @@ void Init_Core(void)
                  RCC_CFGR_PLLDIV  );
   RCC->CFGR |=  (RCC_CFGR_PLLSRC_HSI |
                  RCC_CFGR_PLLMUL4    |
-                 RCC_CFGR_PLLDIV2     );
+                 RCC_CFGR_PLLDIV4     );
 
   FLASH->ACR |= FLASH_ACR_PRFTEN;                           /* Enable Prefetch Buffer            */
   FLASH->ACR |= FLASH_ACR_LATENCY;                          /* Flash 1 wait state                */

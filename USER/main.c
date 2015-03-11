@@ -156,35 +156,11 @@ while(1)
 						repeat_flag  = 1;
 					}			
 			}
-//		  send_str(SRV_CONNECT, 43);
-//		  osDelay(2000);
-//			send_str(SEND_DATA, 11);
-//		  osDelay(1000);
-//	    send_str(aTCP_Buffer, 22);
-//		  osDelay(1000);
-//	    send_str(END_LINE, 1);
-//			osDelay(1000);	
-//			rep_cnt--;			
-//			if(stringtoreceive[2] == 'S') 
-//			{
-//				Led_State = 4;
-//				rep_cnt = 0;
-//				repeat_flag  = 0;
-//			}
-//			send_str(GPRS_DISCONNECT, 12);
-//			osDelay(500);
-//			
-//			
-
-//			if(stringtoreceive[2] == 'E') 
-//			{
-//				//Led_State = 5;
-//				repeat_flag  = 1;
-//			}	
 			RX2_Clear();			
 		 }	
-		if (repeat_flag) Led_State = 5;
-		 RX2_Clear();
+		if (repeat_flag) 
+			Led_State = 5;
+	RX2_Clear();
 	osDelay(rep_time);
 	}
 }
@@ -258,6 +234,7 @@ void ReadADTask (void const *argument)
 	{
 		if(AD_Answer[0] == 'U')
 		{
+			Init_SIM800();
 			for(i = 3; i<11; i++)
 			{
 				if(AD_Answer[i] <= '9')
@@ -336,7 +313,7 @@ void ReadADTask (void const *argument)
 				RX2_Clear();
 			}
 			SIM800_Command(GPRS_DISCONNECT, 12);
-			
+			SIM800_Power_Off();
 		}
 		else if(SIM800_Answer[0] != '0')  
 			RX_Clear();
@@ -349,7 +326,6 @@ int main (void)
 {
   osKernelInitialize ();                    // инициализируем оперционку
 	Init_Hardware();
-	Init_SIM800();
 	tid_MainTask = osThreadCreate (osThread(MainTask), NULL);
 	osKernelStart ();                         // запускаем операционку 
 	while(1)
