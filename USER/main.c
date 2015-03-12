@@ -88,20 +88,21 @@ uint8_t rep_cnt = 5;
 uint8_t Repeat_Buffer[90] = {0};
 uint8_t repeat_flag  = 0;
 uint8_t data_to_send = 0;
+uint16_t data_send_tmp = 0;
 uint8_t Led_State = 0;
 
 int16_t  Version = 0x0003;
 int32_t  TransmitterID = 123456789;
 int16_t  MessageType = 3;
 int16_t  DataType = 3082;
-uint32_t DeltaTime = 3000;
+uint32_t DeltaTime = 29500;
 uint16_t SystolicPressure = 190;
 uint16_t DiastolicPressure = 100;
 uint16_t PulseCnt = 140;
 uint8_t aTCP_Buffer[22];
 
 void MainTask (void const *argument)
-{ uint16_t data_send_tmp = 0;
+{ 
 //	aTCP_Buffer[20] = (uint8_t)Version >> 8;
 //	aTCP_Buffer[21] = (uint8_t)Version >> 8;
 tid_ReadADTask = osThreadCreate (osThread(ReadADTask), NULL);
@@ -111,18 +112,16 @@ while(1)
 
 	if(repeat_flag)
 	{
-    RX2_Clear();
+    Init_SIM800();
+		RX2_Clear();
 		rep_cnt = 5;
-		
 		data_send_tmp = data_to_send;
-		Init_SIM800();
-		while(rep_cnt)
+		while(data_send_tmp)
 		{
 			RX2_Clear();
 			Led_State = 3;
-			while(data_send_tmp)
+			while(rep_cnt)
 			{
-					data_send_tmp--;
 					aTCP_Buffer[15] = Repeat_Buffer[3*data_send_tmp];
 					aTCP_Buffer[14] = 0;
 					aTCP_Buffer[17] = Repeat_Buffer[3*data_send_tmp + 1];
@@ -152,15 +151,16 @@ while(1)
 					osDelay(500);				
 					if(SIM800_Answer[2] == 'E') 
 					{
-						//Led_State = 5;
 						repeat_flag  = 1;
 					}			
 			}
+			data_send_tmp--;
 			RX2_Clear();			
 		 }	
 		if (repeat_flag) 
 			Led_State = 5;
 	RX2_Clear();
+	SIM800_Power_Off();
 	osDelay(rep_time);
 	}
 }

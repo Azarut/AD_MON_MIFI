@@ -1,5 +1,5 @@
 Dependencies for Project 'AD_MON_MIFI', Target 'AD_MON_MIFI': (DO NOT MODIFY !)
-F (..\USER\main.c)(0x55005715)(--c99 -c --cpu Cortex-M0+ -D__RTX -g -O3 --apcs=interwork --split_sections-I F:\WORK\SOURSE\SORCES\AD_MON_MIFI\MDK\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS_RTX\INC-I C:\Keil_v5\ARM\PACK\Keil\STM32L0xx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="514" -D_RTE_ -DSTM32L053xx-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (..\USER\main.c)(0x5501B078)(--c99 -c --cpu Cortex-M0+ -D__RTX -g -O3 --apcs=interwork --split_sections-I F:\WORK\SOURSE\SORCES\AD_MON_MIFI\MDK\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS_RTX\INC-I C:\Keil_v5\ARM\PACK\Keil\STM32L0xx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="514" -D_RTE_ -DSTM32L053xx-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (..\USER\osObjects.h)(0x51ADAF50)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS_RTX\INC\cmsis_os.h)(0x541FD376)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54763950)
