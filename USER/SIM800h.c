@@ -5,7 +5,7 @@
 uint8_t SIM800_data[15] = {0};
 uint8_t AD_Answer[48] = {0};
 uint8_t SIM800_Answer[48] = {0};
-void Init_SIM800(void);
+uint8_t Init_SIM800(void);
 
 /*    АТ-комманды SIM800       */
 uint8_t AT[3] = "AT\r";
@@ -26,7 +26,7 @@ uint8_t POWER_OFF[11] = "AT+CPOWD=0\r";
 uint8_t END_LINE[1] = {0x1A};
 /*******************************/
 
-void Init_SIM800(void)
+uint8_t Init_SIM800(void)
 {		  
 			SIM800_Power_On();
 			Delay(1000);
@@ -63,5 +63,6 @@ void Init_SIM800(void)
 //				Delay(1500);
 //				SIM800_Off();
 		  Delay(1000);
+			return 1;
 }
 

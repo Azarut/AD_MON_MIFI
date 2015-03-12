@@ -1,4 +1,4 @@
-extern void Init_SIM800(void);
+extern uint8_t Init_SIM800(void);
 
 extern uint8_t SIM800_data[15];
 extern uint8_t AD_Answer[48];

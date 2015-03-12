@@ -27,6 +27,7 @@ osThreadDef (MainTask, osPriorityNormal, 1, 0);       // thread object
 osThreadDef (ReadADTask, osPriorityNormal, 1, 0);       // thread object
 osThreadDef (Rx_Blink, osPriorityNormal, 1, 0);       // thread obje
 
+#define WakeUP_Event() GPIOA->IDR & GPIO_IDR_ID8
 const uint16_t crcTable[256] =
     { 0x0000, 0x8005, 0x800F, 0x000A, 0x801B, 0x001E, 0x0014, 0x8011,
       0x8033, 0x0036, 0x003C, 0x8039, 0x0028, 0x802D, 0x8027, 0x0022,
@@ -88,6 +89,8 @@ uint8_t rep_cnt = 5;
 uint8_t Repeat_Buffer[90] = {0};
 uint8_t repeat_flag  = 0;
 uint8_t data_to_send = 0;
+uint8_t SIM_ready = 0;
+uint8_t Event = 1;
 uint16_t data_send_tmp = 0;
 uint8_t Led_State = 0;
 
@@ -109,6 +112,20 @@ tid_ReadADTask = osThreadCreate (osThread(ReadADTask), NULL);
 tid_Rx_Blink = osThreadCreate (osThread(Rx_Blink), NULL);
 while(1)
 {
+	osDelay(1000);
+	if(AD_Answer[11] == 55)
+	{
+	  AD_Answer[0] = 0x55;
+		AD_Answer[1] = '8';
+		AD_Answer[2] = '3';
+		AD_Answer[3] = 0x34;
+		AD_Answer[4] = 0x34;
+		AD_Answer[5] = 0x34;
+		AD_Answer[6] = 0x34;
+		AD_Answer[7] = 0x34;
+		AD_Answer[8] = 0x34;
+		AD_Answer[11] = 0;
+	}
 
 	if(repeat_flag)
 	{
@@ -122,11 +139,11 @@ while(1)
 			Led_State = 3;
 			while(rep_cnt)
 			{
-					aTCP_Buffer[15] = Repeat_Buffer[3*data_send_tmp];
+					aTCP_Buffer[15] = Repeat_Buffer[3*(data_to_send-1)];
 					aTCP_Buffer[14] = 0;
-					aTCP_Buffer[17] = Repeat_Buffer[3*data_send_tmp + 1];
+					aTCP_Buffer[17] = Repeat_Buffer[3*(data_to_send-1) + 1];
 					aTCP_Buffer[16] = 0;
-					aTCP_Buffer[19] = Repeat_Buffer[3*data_send_tmp+ 2];
+					aTCP_Buffer[19] = Repeat_Buffer[3*(data_to_send-1)+ 2];
 					aTCP_Buffer[18] = 0;
 					CRC_calc = crc16((uint32_t*)aTCP_Buffer, 20);
 					aTCP_Buffer[21] = (uint8_t)CRC_calc;
@@ -229,12 +246,23 @@ while(1)
 
 
 void ReadADTask (void const *argument)
-{ uint8_t i = 3;
+{ uint8_t i = 3; 
 	while(1)
 	{
+		if(WakeUP_Event() && Event)
+		{
+			Event = 0;
+			SIM_ready = Init_SIM800();
+		}
+		else
+		{
+			Event = 1;
+			if(!repeat_flag)
+				SIM800_Power_Off();
+		}
 		if(AD_Answer[0] == 'U')
 		{
-			Init_SIM800();
+			
 			for(i = 3; i<11; i++)
 			{
 				if(AD_Answer[i] <= '9')
@@ -269,9 +297,11 @@ void ReadADTask (void const *argument)
 			CRC_calc = crc16((uint32_t*)aTCP_Buffer, 20);
 			aTCP_Buffer[21] = (uint8_t)CRC_calc;
 			aTCP_Buffer[20] =  CRC_calc >> 8;
+	
 			Led_State = 1;
 			RX_Clear();
 			RX2_Clear();
+			
 		  SIM800_Command(SRV_CONNECT, 43);
 		  osDelay(2000);
 			if(SIM800_Answer[8] == 'E') 
@@ -302,22 +332,26 @@ void ReadADTask (void const *argument)
 					Repeat_Buffer[3*data_to_send + 2] = Pulse;
 					data_to_send++;
 				}
+				else
+				{
 					SIM800_Command(aTCP_Buffer, 22);
 					osDelay(1000);
 					SIM800_Command(END_LINE, 1);
 				//Led_State = 0;
 					osDelay(1000);
 				  RX_Clear();				
-				if(SIM800_Answer[2] == 'S') 
+				//if(SIM800_Answer[2] == 'S') 
 					Led_State = 4;
+				}
 				RX2_Clear();
 			}
 			SIM800_Command(GPRS_DISCONNECT, 12);
+			SIM_ready = 0;
 			SIM800_Power_Off();
 		}
 		else if(SIM800_Answer[0] != '0')  
 			RX_Clear();
-		osDelay(1000);
+		//osDelay(1000);
 	}
 } 
  
@@ -328,7 +362,4 @@ int main (void)
 	Init_Hardware();
 	tid_MainTask = osThreadCreate (osThread(MainTask), NULL);
 	osKernelStart ();                         // запускаем операционку 
-	while(1)
-	{
-	}
 }

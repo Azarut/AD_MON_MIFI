@@ -37,12 +37,12 @@ void Init_AD_line(void)
   /* GPIO configuration for USART1 signals */
   /* (1) Select AF mode (10) on PA9 and PA10 */
   /* (2) AF4 for USART1 signals */
-  GPIOA->MODER = (GPIOA->MODER & ~(GPIO_MODER_MODE9|GPIO_MODER_MODE10))\
-                 | (GPIO_MODER_MODE9_1 | GPIO_MODER_MODE10_1); /* (1) */
+  GPIOA->MODER = (GPIOA->MODER & ~(GPIO_MODER_MODE8|GPIO_MODER_MODE10))\
+                 | (GPIO_MODER_MODE10_1); /* (1) */
   GPIOA->AFR[1] = (GPIOA->AFR[1] &~ (0x0000FF00))\
-                  | (4 << (1 * 4)) | (4 << (2 * 4)); /* (2) */
-   GPIOA->PUPDR = (GPIOA->PUPDR & ~(GPIO_PUPDR_PUPD10))\
-                 | (GPIO_PUPDR_PUPD10_0); /* (1) */
+                  | /*(4 << (1 * 4)) |*/ (4 << (2 * 4)); /* (2) */
+  GPIOA->PUPDR = (GPIOA->PUPDR & ~(GPIO_MODER_MODE9|GPIO_PUPDR_PUPD10))\
+                 | (GPIO_MODER_MODE8_1|GPIO_PUPDR_PUPD10_0); /* (1) */
   USART1->BRR = 40000 / 96; /* (1) */
   USART1->CR3 = USART_CR3_DMAT | USART_CR3_DMAR; /* (2) */
   USART1->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE; /* (3) */
