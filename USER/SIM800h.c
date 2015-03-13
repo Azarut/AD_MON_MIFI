@@ -59,9 +59,6 @@ uint8_t Init_SIM800(void)
 	    SIM800_Command(CHK_CONNECT, 9);
 		  Delay(1000);
 	    SIM800_Command(CHK_IP, 9);
-//			SIM800_On();
-//				Delay(1500);
-//				SIM800_Off();
 		  Delay(1000);
 			return 1;
 }

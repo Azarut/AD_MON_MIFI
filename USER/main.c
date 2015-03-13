@@ -90,7 +90,7 @@ uint8_t Repeat_Buffer[90] = {0};
 uint8_t repeat_flag  = 0;
 uint8_t data_to_send = 0;
 uint8_t SIM_ready = 0;
-uint8_t Event = 1;
+uint8_t Event = 0;
 uint16_t data_send_tmp = 0;
 uint8_t Led_State = 0;
 
@@ -113,19 +113,19 @@ tid_Rx_Blink = osThreadCreate (osThread(Rx_Blink), NULL);
 while(1)
 {
 	osDelay(1000);
-	if(AD_Answer[11] == 55)
-	{
-	  AD_Answer[0] = 0x55;
-		AD_Answer[1] = '8';
-		AD_Answer[2] = '3';
-		AD_Answer[3] = 0x34;
-		AD_Answer[4] = 0x34;
-		AD_Answer[5] = 0x34;
-		AD_Answer[6] = 0x34;
-		AD_Answer[7] = 0x34;
-		AD_Answer[8] = 0x34;
-		AD_Answer[11] = 0;
-	}
+//	if(AD_Answer[11] == 55)
+//	{
+//	  AD_Answer[0] = 0x55;
+//		AD_Answer[1] = '8';
+//		AD_Answer[2] = '3';
+//		AD_Answer[3] = 0x34;
+//		AD_Answer[4] = 0x34;
+//		AD_Answer[5] = 0x34;
+//		AD_Answer[6] = 0x34;
+//		AD_Answer[7] = 0x34;
+//		AD_Answer[8] = 0x34;
+//		AD_Answer[11] = 0;
+//	}
 
 	if(repeat_flag)
 	{
@@ -249,20 +249,21 @@ void ReadADTask (void const *argument)
 { uint8_t i = 3; 
 	while(1)
 	{
-		if(WakeUP_Event() && Event)
-		{
-			Event = 0;
-			SIM_ready = Init_SIM800();
-		}
-		else
+		if(WakeUP_Event() && !Event && !SIM_ready)
 		{
 			Event = 1;
+			Led_State = 4;
+			SIM_ready = Init_SIM800();
+		}
+		if (!(WakeUP_Event()) && (Event == 1 ) && !SIM_ready)
+		{
+			Event = 0;
 			if(!repeat_flag)
 				SIM800_Power_Off();
 		}
 		if(AD_Answer[0] == 'U')
 		{
-			
+			osDelay(1000);
 			for(i = 3; i<11; i++)
 			{
 				if(AD_Answer[i] <= '9')
@@ -349,7 +350,7 @@ void ReadADTask (void const *argument)
 			SIM_ready = 0;
 			SIM800_Power_Off();
 		}
-		else if(SIM800_Answer[0] != '0')  
+		else if(AD_Answer[0] != ' ')  
 			RX_Clear();
 		//osDelay(1000);
 	}
@@ -358,7 +359,7 @@ void ReadADTask (void const *argument)
  
 int main (void) 
 {
-  osKernelInitialize ();                    // инициализируем оперционку
+  osKernelInitialize();                    // инициализируем оперционку
 	Init_Hardware();
 	tid_MainTask = osThreadCreate (osThread(MainTask), NULL);
 	osKernelStart ();                         // запускаем операционку 
